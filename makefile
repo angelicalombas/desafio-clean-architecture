@@ -1,13 +1,10 @@
 PROTO_OUT ?= internal/infra/grpc
 
 docker-up:
-	podman-compose up -d
+	docker-compose up -d
 
 docker-down:
-	podman-compose down --remove-orphans
-
-run:
-	cd cmd/ordersystem/ && go run main.go wire_gen.go
+	docker-compose down --remove-orphans
 
 compile-proto-go:
 	protoc --proto_path=internal/infra/grpc/protofiles \

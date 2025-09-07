@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net"
 	"net/http"
+	"os"
 
 	graphql_handler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -75,13 +77,26 @@ func main() {
 }
 
 func getRabbitMQChannel() *amqp.Channel {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	rabbitHost := os.Getenv("RABBITMQ_HOST")
+	rabbitPort := os.Getenv("RABBITMQ_PORT")
+	rabbitUser := os.Getenv("RABBITMQ_USER")
+	rabbitPass := os.Getenv("RABBITMQ_PASSWORD")
+
+	url := fmt.Sprintf("amqp://%s:%s@%s:%s/",
+		rabbitUser,
+		rabbitPass,
+		rabbitHost,
+		rabbitPort,
+	)
+
+	conn, err := amqp.Dial(url)
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to connect to RabbitMQ: %v", err)
 	}
+
 	ch, err := conn.Channel()
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to open RabbitMQ channel: %v", err)
 	}
 	return ch
 }

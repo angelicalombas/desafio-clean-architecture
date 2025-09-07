@@ -18,13 +18,7 @@ Projeto apresentado como desafio na disciplina de Clean Architecture na Pós Gra
 #### Suba a infraestrutura do projeto:
 
 ```shell
-  make docker-up
-```
-
-#### Execute o projeto:
-
-```shell
-  make run
+  docker-compose up -d
 ```
 
 #### A aplicação estará disponível em:
@@ -39,7 +33,7 @@ Projeto apresentado como desafio na disciplina de Clean Architecture na Pós Gra
 #### REST API
 - Execute o comando abaixo para criar uma nova order:
 ```http
-  POST http://localhost:8000/order/order
+  POST http://localhost:8000/order
 ```
 ```http
     {
